@@ -119,7 +119,7 @@ public class DragonRenderer extends RenderLiving<EntityTameableDragon> {
         float death=dragon.getDeathTime() / (float) dragon.getMaxDeathTime();
 
         if (death > 0) {
-            glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+//            glPushAttrib(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
             GlStateManager.depthFunc(GL_LEQUAL);
             GlStateManager.enableAlpha();
@@ -134,9 +134,9 @@ public class DragonRenderer extends RenderLiving<EntityTameableDragon> {
 
         super.renderModel(dragon, moveTime, moveSpeed, ticksExisted, lookYaw, lookPitch, scale);
 
-        if (death > 0) {
-            GlStateManager.popAttrib();
-        }
+//        if (death > 0) {
+//            GlStateManager.popAttrib();
+//        }
     }
 
     protected void renderEgg(EntityTameableDragon dragon, double x, double y, double z, float pitch, float partialTicks) {

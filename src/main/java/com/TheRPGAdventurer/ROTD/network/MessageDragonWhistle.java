@@ -69,9 +69,16 @@ public class MessageDragonWhistle extends AbstractMessage<MessageDragonWhistle> 
         if (!player.world.isRemote) {
             Entity entity = server.getEntityFromUuid(dragonId);
             if (entity != null && entity instanceof EntityTameableDragon) {
+<<<<<<< Updated upstream
                 EntityTameableDragon dragon = (EntityTameableDragon) entity;
                 dragon.setWhistleState(message.controlState);
 
+=======
+                if (dragon.isOwner(player)) {
+                    EntityTameableDragon dragon = (EntityTameableDragon) entity;
+                    dragon.setWhistleState(message.controlState);
+                }
+>>>>>>> Stashed changes
             } else player.sendStatusMessage(new TextComponentTranslation("whistle.msg.fail"), true);
         }
     }

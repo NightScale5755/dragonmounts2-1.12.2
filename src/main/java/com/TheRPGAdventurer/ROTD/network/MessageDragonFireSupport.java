@@ -62,9 +62,15 @@ public class MessageDragonFireSupport extends AbstractMessage<MessageDragonFireS
         clientWhistleSound(player);
         if (!player.world.isRemote) {
             Entity entity = server.getEntityFromUuid(dragonId);
+<<<<<<< Updated upstream
             if (entity != null) {
                 if (entity instanceof EntityTameableDragon) {
                     EntityTameableDragon dragon = (EntityTameableDragon) entity;
+=======
+            if (entity != null && entity instanceof EntityTameableDragon) {
+                EntityTameableDragon dragon = (EntityTameableDragon) entity;
+                if (dragon.isOwner(player)) {
+>>>>>>> Stashed changes
                      dragon.setfiresupport(!dragon.firesupport());
                 }
             } else player.sendStatusMessage(new TextComponentTranslation("whistle.msg.fail"), true);

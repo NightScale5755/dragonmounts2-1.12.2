@@ -26,7 +26,11 @@ public class EntityAIDragonPlayerControl extends EntityAIDragonBase implements P
 
     public EntityAIDragonPlayerControl(EntityTameableDragon dragon) {
         super(dragon);
+<<<<<<< Updated upstream
         setMutexBits(0xffffffff);
+=======
+        setMutexBits(0Xfffff);
+>>>>>>> Stashed changes
     }
 
     @Override

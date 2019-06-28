@@ -1,8 +1,11 @@
 package com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.ai;
 
 import com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.EntityTameableDragon;
+<<<<<<< Updated upstream
 import com.TheRPGAdventurer.ROTD.util.DMUtils;
 import net.minecraft.entity.EntityLivingBase;
+=======
+>>>>>>> Stashed changes
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -91,6 +94,7 @@ public class EntityAIDragonWhistle extends EntityAIDragonBase {
                 speed * moveSpeedMultiplier);
     }
 
+<<<<<<< Updated upstream
     public boolean circleTarget1(BlockPos midPoint) {
         if(dragon.getControllingPlayer() != null) {
             return false;
@@ -109,6 +113,8 @@ public class EntityAIDragonWhistle extends EntityAIDragonBase {
         return dragon.getNavigator().tryMoveToXYZ(x + 0.5, y + 0.5, z + 0.5, 1);
     }
 
+=======
+>>>>>>> Stashed changes
     @Override
     public void startExecuting() {
         //Commands Requiring Flight - if any is true, start flying
