@@ -42,17 +42,12 @@ public class DragonBreedNether extends DragonBreed {
     }
 
     public SoundEvent getLivingSound(EntityTameableDragon dragon) {
-        if (dragon.isHatchling()) {
+        if (dragon.isBaby()) {
             return ModSounds.ENTITY_DRAGON_HATCHLING_GROWL;
         } else {
             return ModSounds.ENTITY_NETHER_DRAGON_GROWL;
         }
     }
-
-    //	@Override
-    //	public boolean canChangeBreed() {
-    //		return false;
-    //	}
 
     @Override
     public void continueAndUpdateBreathing(World world, Vec3d origin, Vec3d endOfLook, BreathNode.Power power, EntityTameableDragon dragon) {
@@ -79,7 +74,7 @@ public class DragonBreedNether extends DragonBreed {
     }
 
     private void doParticles(EntityTameableDragon dragon, EnumParticleTypes types) {
-        if (!dragon.isEgg() && !dragon.isHatchling()) {
+        if (!dragon.isEgg() && !dragon.isBaby()) {
             float s = dragon.getScale(); //  * 1.2f
             for (double x1 = 0; x1 < s + 1; ++x1) {
                 double x = dragon.posX + (rand.nextDouble() - 0.5) * (dragon.width - 0.65) * s;
@@ -90,10 +85,4 @@ public class DragonBreedNether extends DragonBreed {
             }
         }
     }
-
-    //	@Override
-    //	public boolean isInfertile() {
-    //		return true;
-    //	}
-
 }

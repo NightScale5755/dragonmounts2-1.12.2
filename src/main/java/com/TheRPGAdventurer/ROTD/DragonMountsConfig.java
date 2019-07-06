@@ -78,7 +78,7 @@ public class DragonMountsConfig {
 	public static int zombieNestRarerityInX = 28;
 	public static int zombieNestRarerityInZ = 28;
 
-	public static double ThirdPersonZoom = 8;
+	public static double ThirdPersonZoom = 22;
 
 	public static int dragonFollowOwnerFlyingHeight = 50;
 	public static int dragonanderFromHomeDist = 50;
@@ -183,7 +183,7 @@ public class DragonMountsConfig {
 		propOrder.add(prop.getName());
 
 		prop = config.get(CATEGORY_MAIN, "Hunger Speed", hungerDecrement);
-		prop.setComment("More numbers slower, i.e. gets a number from the factor of (3000 * 5) to 1 per millisecond if it equals to 1 reduce hunger, set to zero for no hunger");
+		prop.setComment("More numbers slower, i.e. gets a number from the factor of (3000) to 1 per tick (millisecond) if it equals to 1 reduce hunger, set to zero for no hunger, dont make it too low or might crash the game");
 		hungerDecrement = prop.getInt();
 		propOrder.add(prop.getName());
 

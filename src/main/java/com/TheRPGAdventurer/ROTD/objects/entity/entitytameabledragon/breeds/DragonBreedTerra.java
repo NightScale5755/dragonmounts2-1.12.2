@@ -17,6 +17,11 @@ public class DragonBreedTerra extends DragonBreed {
         setHabitatBiome(Biomes.MUTATED_MESA_CLEAR_ROCK);
         setHabitatBiome(Biomes.MUTATED_MESA_ROCK);
         setHabitatBlock(Blocks.HARDENED_CLAY);
+        setHabitatBlock(Blocks.SAND);
+        setHabitatBlock(Blocks.SANDSTONE);
+        setHabitatBlock(Blocks.SANDSTONE_STAIRS);
+        setHabitatBlock(Blocks.RED_SANDSTONE);
+        setHabitatBlock(Blocks.RED_SANDSTONE_STAIRS);
 
     }
 
@@ -39,8 +44,8 @@ public class DragonBreedTerra extends DragonBreed {
     }
 
     private void doParticles(EntityTameableDragon dragon) {
-        if (!dragon.isEgg() && !dragon.isHatchling()) {
-            float s=dragon.getScale() * 1.2f;
+        if (!dragon.isEgg() && !dragon.isBaby()) {
+          float s=dragon.getScale() * 1.2f;
             for (double x1=0; x1 < s; ++x1) {
                 double x=dragon.posX + (rand.nextDouble() - 0.5) * (dragon.width - 0.65) * s;
                 double y=dragon.posY + (rand.nextDouble() - 0.5) * dragon.height * s;

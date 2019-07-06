@@ -27,6 +27,7 @@ public class MessageDragonWhistleSit extends AbstractMessage<MessageDragonWhistl
 
     public MessageDragonWhistleSit() {
     }
+
     @Override
     public void fromBytes(ByteBuf buf) {
         PacketBuffer packetBuf = new PacketBuffer(buf);
@@ -40,17 +41,6 @@ public class MessageDragonWhistleSit extends AbstractMessage<MessageDragonWhistl
 
     }
 
-    /**
-     * Play Sound on the client only; dont let anyone else hear!
-     * <p>
-     * Doesnt seem to work in {@code onClientRecieved()}...
-     *
-     * @param player
-     */
-    @SideOnly(Side.CLIENT)
-    private void clientWhistleSound(EntityPlayer player) {
-        player.world.playSound(null, player.getPosition(), ModSounds.DRAGON_WHISTLE, SoundCategory.PLAYERS, 4, 1);
-    }
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -59,15 +49,15 @@ public class MessageDragonWhistleSit extends AbstractMessage<MessageDragonWhistl
 
     @Override
     public void onServerReceived(MinecraftServer server, MessageDragonWhistleSit message, EntityPlayer player, MessageContext messageContext) {
-        clientWhistleSound(player);
-        if (!player.world.isRemote) {
-            Entity entity = server.getEntityFromUuid(dragonId);
-            if (entity != null) {
-                if (entity instanceof EntityTameableDragon) {
-                    EntityTameableDragon dragon = (EntityTameableDragon) entity;
-                    dragon.setSitting(!dragon.isSitting());
-                }
-            } else player.sendStatusMessage(new TextComponentTranslation("whistle.msg.fail"), true);
-        }
+        player.world.playSound(null, player.getPosition(), ModSounds.DRAGON_WHISTLE, SoundCategory.PLAYERS, 1, 1);
+        if (player.world.isRemote) return;
+        Entity entity = server.getEntityFromUuid(dragonId);
+        if (entity instanceof EntityTameableDragon) {
+            EntityTameableDragon dragon = (EntityTameableDragon) entity;
+            dragon.setSitting(!dragon.isSitting());
+            dragon.getNavigator().clearPath();
+            dragon.setnowhistlecommands(true);
+        } else player.sendStatusMessage(new TextComponentTranslation("whistle.msg.fail"), true);
+
     }
 }

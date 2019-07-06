@@ -180,8 +180,8 @@ public class DragonAnimator {
 
     public void setLook(float lookYaw, float lookPitch) {
 		// don't twist the neck
-        this.lookYaw = MathX.clamp(lookYaw, -120, 120); // 120
-        this.lookPitch = MathX.clamp(lookPitch, -90, 90); // 90
+        this.lookYaw = MathX.clamp(lookYaw, -120, 120);
+        this.lookPitch = MathX.clamp(lookPitch, -90, 90);
     }
 
     /**
@@ -364,6 +364,11 @@ public class DragonAnimator {
         }
         return dragonHeadPositionHelper.getThroatPosition();
     }
+
+//    public Vec3d getRiderPosition()  //todo update various position helpers such as rider location, etc
+//    {
+//        return new Vec3d(00)
+//    }
 
     protected void animHeadAndNeck() {
         dragonHeadPositionHelper.calculateHeadAndNeck(animBase, flutter, sit, walk, speed, ground, lookYaw, lookPitch, breath);

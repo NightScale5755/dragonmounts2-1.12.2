@@ -11,9 +11,13 @@ package com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.ai.ground;
 
 import com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.EntityTameableDragon;
 import com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.ai.EntityAIDragonBase;
-import com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.helper.EnumDragonLifeStage;
+import com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.breeds.EnumDragonBreed;
+import com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.helper.DragonLifeStage;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Derivative EntityAIMate class to deal with some special values that can't be
@@ -85,7 +89,7 @@ public class EntityAIDragonMate extends EntityAIDragonBase {
         double followRange = getFollowRange();
         List<EntityTameableDragon> nearbyDragons = world.getEntitiesWithinAABB(
                 EntityTameableDragon.class,
-                dragon.getEntityBoundingBox().expand(followRange, followRange, followRange)
+                dragon.getEntityBoundingBox().grow(followRange, followRange, followRange)
         );
 
         for (EntityTameableDragon nearbyDragon : nearbyDragons) {
@@ -106,12 +110,15 @@ public class EntityAIDragonMate extends EntityAIDragonBase {
         if (dragonBaby != null) {
             dragon.resetInLove();
             dragonMate.resetInLove();
-
             dragonBaby.setLocationAndAngles(dragon.posX, dragon.posY, dragon.posZ, 0, 0);
-            dragonBaby.getLifeStageHelper().setLifeStage(EnumDragonLifeStage.EGG);
+            dragonBaby.getLifeStageHelper().setLifeStage(DragonLifeStage.EGG);
 
+            Map<EnumDragonBreed, AtomicInteger> points = dragonBaby.getBreedHelper().getBreedPoints();
+
+            // i cant figure out on how to get the highest number on the breed point map on the baby and set the breed with it
+            // inherit breed sets the both breed point from parents
+            dragonBaby.setBreedType(dragonMate.getBreedType());
             world.spawnEntity(dragonBaby);
-            // TODO: particles for the clients?
         }
     }
 }

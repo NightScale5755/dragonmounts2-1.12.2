@@ -79,21 +79,21 @@ public class DragonViewEvent {
                     }
                 }
             } else {
-                GlStateManager.translate(0F, -0.5F, -5);
+                GlStateManager.translate(0F, -0.5F, 0F);
             }
         }
     }
 
-    @SubscribeEvent
-    public void rideDragonGameOverlay(RenderGameOverlayEvent.Pre event) {
-        EntityPlayer player = Minecraft.getMinecraft().player;
-        if (player.getRidingEntity() instanceof EntityTameableDragon) {
-            EntityTameableDragon dragon = (EntityTameableDragon) player.getRidingEntity();
-            if (event.getType() == RenderGameOverlayEvent.ElementType.EXPERIENCE) event.setCanceled(true);
-                GuiDragonRide rideGui = new GuiDragonRide(dragon);
-                rideGui.renderDragonBoostHotbar();
-        }
-    }
+//    @SubscribeEvent
+//    public void rideDragonGameOverlay(RenderGameOverlayEvent.Pre event) {
+//        EntityPlayer player = Minecraft.getMinecraft().player;
+//        if (player.getRidingEntity() instanceof EntityTameableDragon) {
+//            EntityTameableDragon dragon = (EntityTameableDragon) player.getRidingEntity();
+//            if (event.getType() == RenderGameOverlayEvent.ElementType.EXPERIENCE) event.setCanceled(true);
+//                GuiDragonRide rideGui = new GuiDragonRide(dragon);
+//                rideGui.renderDragonBoostHotbar();
+//        }
+//    }
 
     @SubscribeEvent
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {

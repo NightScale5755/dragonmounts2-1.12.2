@@ -50,14 +50,6 @@ public class DragonBrain extends DragonHelper {
         targetTasks = dragon.targetTasks;
     }
 
-    public void setAvoidsWater(boolean avoidWater) {
-        PathNavigate pathNavigate = dragon.getNavigator();
-        if (pathNavigate instanceof PathNavigateGround) {
-            PathNavigateGround pathNavigateGround = (PathNavigateGround) pathNavigate;
-            pathNavigateGround.setCanSwim(!avoidWater); // originally setAvoidsWater()
-        }
-    }
-
     // public void clearTasks() {
     //     clearTasks(tasks);
     //     clearTasks(targetTasks);
@@ -68,13 +60,22 @@ public class DragonBrain extends DragonHelper {
     //      taskEntries.forEach(entry -> tasks.removeTask(entry.action));
     //  }
 
+
+    public void setAvoidsWater(boolean avoidWater) {
+        PathNavigate pathNavigate = dragon.getNavigator();
+        if (pathNavigate instanceof PathNavigateGround) {
+            PathNavigateGround pathNavigateGround = (PathNavigateGround) pathNavigate;
+            pathNavigateGround.setCanSwim(!avoidWater); // originally setAvoidsWater()
+        }
+    }
+
     public void updateAITasks() {
         // only hatchlings are small enough for doors
         // (eggs don't move on their own anyway and are ignored)
         // guessed, based on EntityAIRestrictOpenDoor - break the door down, don't open it
         if (dragon.getNavigator() instanceof PathNavigateGround) {
             PathNavigateGround pathNavigateGround = (PathNavigateGround) dragon.getNavigator();
-            pathNavigateGround.setEnterDoors(dragon.isHatchling());
+            pathNavigateGround.setEnterDoors(dragon.isBaby());
         }
 
         // clear current navigation target
@@ -88,42 +89,36 @@ public class DragonBrain extends DragonHelper {
             return;
         }
 
-        tasks.addTask(0, new EntityAIDragonPlayerControl(dragon)); // mutex all
-        tasks.addTask(1, new EntityAIDragonCatchOwner(dragon)); // mutex all
-        tasks.addTask(1, new EntityAIDragonWhistle(dragon)); // mutex all
+        tasks.addTask(0, new EntityAIDragonCatchOwner(dragon)); // mutex all
+        tasks.addTask(1, new EntityAIDragonPlayerControl(dragon)); // mutex all
         tasks.addTask(2, dragon.getAISit()); // mutex 4+1
+        tasks.addTask(3, new EntityAIDragonWhistle(dragon)); // mutex all
         tasks.addTask(3, new EntityAIDragonFollowOwnerElytraFlying(dragon)); // mutex all
         tasks.addTask(4, new EntityAIMoveTowardsRestriction(dragon, 1)); // mutex 1
-        //   tasks.addTask(5, new EntityAIFlyAround(dragon));
-        //   tasks.addTask(6, new EntityAIAirPoint(dragon));
 
-        if (dragon.isFlying()) {
             tasks.addTask(6, new EntityAIDragonFlight(dragon, 1)); // mutex 1
-        } else {
-            tasks.addTask(2, new EntityAISwimming(dragon)); // mutex 4
-            tasks.addTask(7, new EntityAIAttackMelee(dragon, 1, true)); // mutex 2+1
-            tasks.addTask(9, new EntityAIDragonFollowOwner(dragon, 1, 14, 128)); // mutex 2+1
-            tasks.addTask(9, new EntityAIDragonFollowOwnerElytraFlying(dragon)); // mutex 2+1
-            tasks.addTask(10, new EntityAIWanderOld(dragon, 1)); // mutex 1
-            if (dragon.getControllingPlayer() != null) {
-                tasks.addTask(11, new EntityAIDragonWatchIdle(dragon)); // mutex 2
-                tasks.addTask(11, new EntityAIDragonWatchLiving(dragon, 16, 0.05f)); // mutex 2
+        tasks.addTask(2, new EntityAISwimming(dragon)); // mutex 4
+        tasks.addTask(7, new EntityAIAttackMelee(dragon, 1, true)); // mutex 2+1
+        tasks.addTask(9, new EntityAIDragonFollowOwner(dragon, 1, 14, 128)); // mutex 2+1
+        tasks.addTask(9, new EntityAIDragonFollowOwnerElytraFlying(dragon)); // mutex 2+1
+        tasks.addTask(10, new EntityAIWander(dragon, 1)); // mutex 1
+        tasks.addTask(11, new EntityAIDragonWatchIdle(dragon)); // mutex 2
+        tasks.addTask(11, new EntityAIDragonWatchLiving(dragon, 16, 0.05f)); // mutex 2
+
+
+        targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityLiving>(dragon, EntityLiving.class, 10, false, true, new Predicate<EntityLiving>() {
+            public boolean apply(@Nullable EntityLiving p_apply_1_) {
+                return p_apply_1_ != null && IMob.VISIBLE_MOB_SELECTOR.apply(p_apply_1_);
             }
+        }));
+        targetTasks.addTask(5, new EntityAIDragonHunt(dragon, EntityAnimal.class, false, new EntityClassPredicate(EntitySheep.class, EntityPig.class, EntityChicken.class, EntityRabbit.class, EntityLlama.class))); // mutex 1
 
-            targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityLiving>(dragon, EntityLiving.class, 10, false, true, new Predicate<EntityLiving>() {
-                public boolean apply(@Nullable EntityLiving p_apply_1_) {
-                    return p_apply_1_ != null && IMob.VISIBLE_MOB_SELECTOR.apply(p_apply_1_);
-                }
-            }));
-            targetTasks.addTask(5, new EntityAIDragonHunt(dragon, EntityAnimal.class, false, new EntityClassPredicate(EntitySheep.class, EntityPig.class, EntityChicken.class, EntityRabbit.class, EntityLlama.class))); // mutex 1
-
-            if (dragon.isHatchling() && dragon.onGround) {
-                tasks.addTask(5, new EntityAILeapAtTarget(dragon, 0.7F)); // mutex 1
-                tasks.addTask(6, new EntityAIFollowParent(dragon, 1.4f));
-                tasks.addTask(6, new EntityAITempt(dragon, 0.75, false, OreDictionary.getOres("listAllfishraw").stream().map(ItemStack::getItem).collect(Collectors.toSet()))); // mutex 2+1
-            }
-
+        if (dragon.isBaby() && dragon.onGround) {
+            tasks.addTask(5, new EntityAILeapAtTarget(dragon, 0.7F)); // mutex 1
+            tasks.addTask(6, new EntityAIDragonFollowParent(dragon, 1.4f));
+            tasks.addTask(6, new EntityAITempt(dragon, 0.75, false, OreDictionary.getOres("listAllfishraw").stream().map(ItemStack::getItem).collect(Collectors.toSet()))); // mutex 2+1
         }
+
         targetTasks.addTask(2, new EntityAIOwnerHurtByTarget(dragon)); // mutex 1
         targetTasks.addTask(3, new EntityAIOwnerHurtTarget(dragon)); // mutex 1
         targetTasks.addTask(4, new EntityAIDragonHurtByTarget(dragon, false)); // mutex 1
@@ -131,6 +126,6 @@ public class DragonBrain extends DragonHelper {
         if (dragon.isAdult()) {
             tasks.addTask(5, new EntityAIDragonMate(dragon, 0.6)); // mutex 2+1
         }
-//        }
     }
 }
+

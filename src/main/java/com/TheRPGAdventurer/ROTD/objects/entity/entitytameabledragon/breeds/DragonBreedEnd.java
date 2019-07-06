@@ -49,21 +49,9 @@ public class DragonBreedEnd extends DragonBreed {
 	
 	@Override
 	public void onLivingUpdate(EntityTameableDragon dragon) {
-		doParticles(dragon);
+
 	}
-	
-    private void doParticles(EntityTameableDragon dragon) {
-        if (!dragon.isEgg() && !dragon.isHatchling()) {
-	        float s = dragon.getScale() * 1.2f;
-	        for (double x1 = 0; x1 < s + 2; ++x1) {
-		        double x = dragon.posX + (rand.nextDouble() - 0.5) * (dragon.width - 0.65) * s;
-		        double y = dragon.posY + (rand.nextDouble() - 0.5) * dragon.height * s;
-		        double z = dragon.posZ + (rand.nextDouble() - 0.5) * (dragon.width - 0.65) * s;
-		        
-		        dragon.world.spawnParticle(EnumParticleTypes.PORTAL, x, y, z, 0, 0, 0);
-	        }
-        }
-    }
+
 	
 	@Override
     public void continueAndUpdateBreathing(World world, Vec3d origin, Vec3d endOfLook, BreathNode.Power power, EntityTameableDragon dragon) {
@@ -75,6 +63,10 @@ public class DragonBreedEnd extends DragonBreed {
     public void spawnBreathParticles(World world, BreathNode.Power power, int tickCounter, Vec3d origin, Vec3d endOfLook, EntityTameableDragon dragon) {
 		dragon.getBreathHelper().getEmitter().setBeamEndpoints(origin, endOfLook);
 		dragon.getBreathHelper().getEmitter().spawnBreathParticlesforEnderDragon(world, power, tickCounter);
+    }
+
+    public EnumParticleTypes getSneezeParticle() {
+        return EnumParticleTypes.PORTAL;
     }
     
 }
