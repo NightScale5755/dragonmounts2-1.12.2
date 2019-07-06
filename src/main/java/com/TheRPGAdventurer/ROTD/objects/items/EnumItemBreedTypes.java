@@ -29,7 +29,7 @@ public enum EnumItemBreedTypes {
 	ZOMBIE(TextFormatting.WHITE);
 	//LIGHT(TextFormatting.GRAY);
 	//DARK(TextFormatting.GRAY);
-	//Specter(TextFormatting.WHITE);
+	//SPECTER(TextFormatting.WHITE);
 	
 	public TextFormatting color;
 	
