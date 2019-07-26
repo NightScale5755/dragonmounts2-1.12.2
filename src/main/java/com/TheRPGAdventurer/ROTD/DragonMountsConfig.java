@@ -36,7 +36,6 @@ public class DragonMountsConfig {
 	private static boolean debug = false;
 	public static boolean shouldChangeBreedViaHabitatOrBlock = true;
 	public static boolean canDragonDespawn = true;
-	public static boolean canMilk = true;
 
 	public static boolean canIceBreathBePermanent = false;
 	public static boolean canFireBreathAffectBlocks = true;
@@ -53,10 +52,10 @@ public class DragonMountsConfig {
 
 
 	public static double ARMOR  = 8F;
-	public static double BASE_DAMAGE  = 5.0F;
+	public static double BASE_DAMAGE  = 12.0F;
 	public static double BASE_HEALTH = 90.0d;
 	public static int REG_FACTOR  = 75;
-	public static int hungerDecrement  = 3000;
+	public static int hungerDecrement  = 6000;
 
 	// chances
 	public static int FireNestRarity  = 50;
@@ -64,10 +63,10 @@ public class DragonMountsConfig {
 	public static int TerraNestRarity  = 180;
 	public static int ForestNestRarity  = 180;
 	public static int SunlightNestRarity  = 60;
-	public static int OceanNestRarity  = 4000;
+	public static int OceanNestRarity  = 5000;
 	public static int EnchantNestRarity  = 300;
-	public static int JungleNestRarity  = 700;
-	public static int WaterNestRarity  = 150;
+	public static int JungleNestRarity  = 800;
+	public static int WaterNestRarity  = 180;
 	public static int IceNestRarity  = 200;
 
 	public static int netherNestRarity = 200;
@@ -78,7 +77,7 @@ public class DragonMountsConfig {
 	public static int zombieNestRarerityInX = 28;
 	public static int zombieNestRarerityInZ = 28;
 
-	public static double ThirdPersonZoom = 22;
+	public static double ThirdPersonZoom = 20;
 
 	public static int dragonFollowOwnerFlyingHeight = 50;
 	public static int dragonanderFromHomeDist = 50;
@@ -183,18 +182,13 @@ public class DragonMountsConfig {
 		propOrder.add(prop.getName());
 
 		prop = config.get(CATEGORY_MAIN, "Hunger Speed", hungerDecrement);
-		prop.setComment("More numbers slower, i.e. gets a number from the factor of (3000) to 1 per tick (millisecond) if it equals to 1 reduce hunger, set to zero for no hunger, dont make it too low or might crash the game");
+		prop.setComment("More numbers slower, i.e. gets a number from the factor of (3000) to 1 per tick (millisecond) if it equals to 1 reduce hunger, dont make it too low or might crash the game");
 		hungerDecrement = prop.getInt();
 		propOrder.add(prop.getName());
 
 		prop = config.get(CATEGORY_MAIN, "can dragons despawn", canDragonDespawn);
 		prop.setComment("Enables or Disables dragons ability to despawn, works only for adult non tamed dragons");
 		canDragonDespawn = prop.getBoolean();
-		propOrder.add(prop.getName());
-
-		prop = config.get(CATEGORY_MAIN, "Milk Dregons", canMilk);
-		prop.setComment("Joke Feature: makes dragons milkable like cows");
-		canMilk = prop.getBoolean();
 		propOrder.add(prop.getName());
 
 		prop = config.get(CATEGORY_MAIN, "can ice breath be permanent", canIceBreathBePermanent);

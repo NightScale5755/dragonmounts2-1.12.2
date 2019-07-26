@@ -99,17 +99,6 @@ public class DragonRenderer extends RenderLiving<EntityTameableDragon> {
     });
   }
 
-  public void renderBanner(ResourceLocation resourceLocation, ModelBanner bannerModel) {
-    if (resourceLocation!=null) {
-      this.bindTexture(resourceLocation);
-      bannerModel.bannerSlate.showModel=false;
-      GlStateManager.pushMatrix();
-      GlStateManager.scale(0.6666667F, -0.6666667F, -0.6666667F);
-      bannerModel.renderBanner();
-      GlStateManager.popMatrix();
-    }
-  }
-
   /**
    * Renders the model in RenderLiving
    */
@@ -154,12 +143,6 @@ public class DragonRenderer extends RenderLiving<EntityTameableDragon> {
     if (tickZ > 0) {
       rotZ=(float) Math.sin(tickZ - partialTicks) * 8;
     }
-        
-/*		// Aether Egg Levitate
-        float l = (float) (0.1 * Math.cos(dragon.ticksExisted / (Math.PI * 6.89)) + 0.307);
-        boolean lev = false;
-        if (dragon.getBreedType() == EnumDragonBreed.AETHER) lev = true;
-*/
 
     // prepare GL states
     GlStateManager.pushMatrix();

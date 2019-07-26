@@ -17,13 +17,9 @@ import com.TheRPGAdventurer.ROTD.inits.ModArmour;
 import com.TheRPGAdventurer.ROTD.inits.ModTools;
 import com.TheRPGAdventurer.ROTD.inventory.tabs.ArmoryTab;
 import com.TheRPGAdventurer.ROTD.inventory.tabs.CreativeTab;
-import com.TheRPGAdventurer.ROTD.network.*;
-import com.TheRPGAdventurer.ROTD.network.gui.MessageDragonGuiLock;
-import com.TheRPGAdventurer.ROTD.network.gui.MessageDragonGuiSit;
 import com.TheRPGAdventurer.ROTD.proxy.ServerProxy;
 import com.TheRPGAdventurer.ROTD.util.MiscPlayerProperties;
 import com.TheRPGAdventurer.ROTD.util.debugging.testclasses.LoggerLimit;
-import com.TheRPGAdventurer.ROTD.world.DragonMountsWorldGenerator;
 import net.ilexiconn.llibrary.server.entity.EntityPropertiesHandler;
 import net.ilexiconn.llibrary.server.network.NetworkWrapper;
 import net.minecraft.creativetab.CreativeTabs;
@@ -46,17 +42,14 @@ import org.apache.logging.log4j.Logger;
 /**
  * Main control class for Forge.
  */
-@Mod(dependencies="required-after:llibrary@[" + DragonMounts.LLIBRARY_VERSION + ",)", modid=DragonMounts.MODID, name=DragonMounts.NAME, version=DragonMounts.VERSION, useMetadata=true, guiFactory=DragonMounts.GUI_FACTORY)
+@Mod(modid=DragonMounts.MODID, name=DragonMounts.NAME, version=DragonMounts.VERSION, useMetadata=true, guiFactory=DragonMounts.GUI_FACTORY)
 public class DragonMounts {
 
-
-    @NetworkWrapper({MessageDragonInventory.class, MessageDragonBreath.class, MessageDragonFireSupport.class, MessageDragonWhistle.class, MessageDragonWhistleSit.class, MessageDragonGuiSit.class, MessageDragonGuiLock.class, MessageDragonTeleport.class, MessageDragonExtras.class})
-    public static SimpleNetworkWrapper NETWORK_WRAPPER;
+    public static SimpleNetworkWrapper NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(DragonMounts.MODID);
 
     public static final String NAME="Dragon Mounts";
     public static final String MODID="dragonmounts";
     public static final String VERSION="@VERSION@";
-    public static final String LLIBRARY_VERSION="1.7.14";
     public static final String GUI_FACTORY="com.TheRPGAdventurer.ROTD.DragonMountsConfigGuiFactory";
 
     @SidedProxy(serverSide="com.TheRPGAdventurer.ROTD.proxy.ServerProxy", clientSide="com.TheRPGAdventurer.ROTD.proxy.ClientProxy")

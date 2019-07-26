@@ -10,6 +10,7 @@ itemGroup.armorytab=Dragon Mounts Armory
 entity.DragonMount.name=Dragon
 
 entity.DragonMount.ice.name=Ice Dragon
+entity.DragonMount.end.name=Ender Dragon
 entity.DragonMount.ender.name=Ender Dragon
 entity.DragonMount.aether.name=Aether Dragon
 entity.DragonMount.forest.name=Forest Dragon
@@ -78,6 +79,7 @@ dragon.sunlight=Sunlight
 dragon.sunlight2=Sunlight
 dragon.moonlight=Moonlight
 dragon.storm=Storm
+dragon.storm2=Storm
 dragon.zombie=Zombie
 dragon.terra=Terra
 dragon.terra2=Terra
@@ -95,7 +97,7 @@ dragon.adult=Adult
 item.diamond_shears.name=Diamond Shears
 item.dragonEgg.name=%s Egg
 item.dragon_gender.name=Dragon Gender Gem
-item.gui.dragon_gender=Left Click an owned dragon with the gem will switch its gender
+item.gui.dragon_gender=Right Click an owned dragon with the gem will switch its gender
 item.summon_egg.name=Spawn Dragon
 item.dragon_essence.name=Dragon Essence
 item.dragon_whistle.name=Dragon Whistle
@@ -153,15 +155,15 @@ item.armoryitems.info=Forged with the Scales of
 item.diamondshears.info=Used to get scales from tamed dragons without killing it. Untamed ones will attack
 item.dragonamulet.info=Right Click to store a dragon and carry it, right click on ground to summon
 item.carriage.info=Used to make dragons carry multiple passengers like a boat
-item.whistle.info=Left Click an owned and tamed dragon to control it, shift + left click it to set a homePos (!WIP!)
+item.whistle.info=Right Click an owned and tamed dragon to control it
 item.whistle.nullBlockPos=Cannot Teleport There
 
 
 ##
-# Messagesh
+# Messages
 ##
 dragon.locked=This Dragon has been locked by the Owner
-dragon.notTamed=This Dragon is not Tamed
+dragon.notTamed=Use meat or fish to tame the dragon
 dragon.notOwned=You do not own this dragon
 entity.dragon.tooYoung=Dragon is too young for that, let it grow
 egg.cantHatchEnd.DragonMounts=Dragon Eggs cannot be hatched in The End
@@ -188,7 +190,7 @@ whistle.command.new_home=New HomePos at
 gui.nothing=Nothing
 gui.circle=Circle Player
 gui.followFlying=Follow Flying
-gui.teleport=Teleport
+gui.cometoPlayer=Come To Player
 gui.locked.dragon=LOCK
 gui.unlocked.dragon=UNLOCK
 gui.sit=Sit

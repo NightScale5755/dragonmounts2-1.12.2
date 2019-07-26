@@ -27,16 +27,16 @@ public enum DragonLifeStage {
   //order, duration of stage in hours of minecraft time, scaleAtStartOfStage, scaleAtEndOfStage
   EGG         (0, 36, 0.25f, 0.25f),
   HATCHLING   (1, 48, 0.04f, 0.09f),
-  INFANT      (2, 14, 0.09f, 0.33f),
-  PREJUVENILE (3, 22, 0.33f, 0.50f),
-  JUVENILE    (4, 60, 0.50f, 1.00f),
+  INFANT      (2, 16, 0.10f, 0.18f),
+  PREJUVENILE (3, 22, 0.19f, 0.60f),
+  JUVENILE    (4, 60, 0.61f, 0.99f),
   ADULT       (5,  0, 1.00f, 1.00f);        // scale of the final stage should be 1.00F to avoid breaking other code
 
 //  desired durations (30 Jun 2019)
 //  egg = 30 minutes
-//          hatchling = 45 minutes
-//          infant = 10 minutes (just filler)
-//  prejuvenile = 15 minutes (just filler)
+//  hatchling = 45 minutes
+//          infant = 14 minutes (just filler)
+//  prejuvenile = 22 minutes (just filler)
 //  juvenile = 50 minutes
 //          adult = 1 hour
 
@@ -69,15 +69,15 @@ public enum DragonLifeStage {
   }
 
   /**
-   * does this stage act like a minecraft baby?
+   * does this stage act like a minecraft baby
    * @return
    */
   public boolean isBaby() {
     return this == HATCHLING || this == INFANT;
   }
 
-  public boolean isHatchling() {
-    return  this == HATCHLING;
+  public boolean isJuvenile() {
+    return  this == JUVENILE || this == PREJUVENILE;
   }
 
   /**
@@ -93,7 +93,7 @@ public enum DragonLifeStage {
    * @return
    */
   public boolean isOldEnoughToBreathe() {
-    return this.order >= PREJUVENILE.order;
+    return this.order >= INFANT.order; // when reached this stage it can breath
   }
 
 

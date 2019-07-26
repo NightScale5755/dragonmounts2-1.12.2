@@ -1,50 +1,59 @@
 package com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.ai;
 
 import com.TheRPGAdventurer.ROTD.objects.entity.entitytameabledragon.EntityTameableDragon;
-import net.minecraft.entity.passive.EntityAnimal;
 
 import java.util.List;
 
 public class EntityAIDragonFollowParent extends EntityAIDragonBase {
 
-    EntityAnimal parentAnimal;
+    // assume any adult dragon nearby is a parent even if its not
+    EntityTameableDragon adultDragon;
     double moveSpeed;
     private int delayCounter;
 
     public EntityAIDragonFollowParent(EntityTameableDragon dragon, double speed) {
         super(dragon);
-        this.setMutexBits(1);
         this.moveSpeed = speed;
+        setMutexBits(1);
     }
 
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
     public boolean shouldExecute() {
-        if (this.dragon.getGrowingAge() >= 0) {
-            return  false;
+        if (!dragon.isBaby()) {
+            return false;
         } else {
-            List<EntityAnimal> list = this.dragon.world.<EntityAnimal>getEntitiesWithinAABB(this.dragon.getClass(), this.dragon.getEntityBoundingBox().grow(8.0D, 4.0D, 8.0D));
-            EntityAnimal entityanimal = null;
+            List<EntityTameableDragon> list = this.dragon.world.<EntityTameableDragon>getEntitiesWithinAABB(this.dragon.getClass(), this.dragon.getEntityBoundingBox().grow(8.0D, 4.0D, 8.0D));
+            EntityTameableDragon adultDragon1 = null;
             double d0 = Double.MAX_VALUE;
 
-            for (EntityAnimal entityanimal1 : list) {
-                if (entityanimal1.getGrowingAge() >= 0) {
-                    double d1 = this.dragon.getDistanceSq(entityanimal1);
+            for (EntityTameableDragon adultDragon11 : list) {
+                if (adultDragon11.getGrowingAge() >= 0) {
+                    double d1 = this.dragon.getDistanceSq(adultDragon11);
 
                     if (d1 <= d0) {
                         d0 = d1;
-                        entityanimal = entityanimal1;
+                        adultDragon1 = adultDragon11;
                     }
                 }
             }
 
-            if (entityanimal == null) {
+            // play the follow owner method
+            if (dragon.getOwner() != null && dragon.getOwner().isSneaking() && adultDragon != null) {
+                return false;
+            }
+
+            if (adultDragon1 == null) {
                 return false;
             } else if (d0 < 9.0D) {
                 return false;
+            } else if (!adultDragon1.isTamed() && adultDragon1.getControllingPlayer() != null) {
+                return false;
+            } else if (dragon.isSitting()) {
+                return false;
             } else {
-                this.parentAnimal = entityanimal;
+                this.adultDragon = adultDragon1;
                 return true;
             }
         }
@@ -56,10 +65,10 @@ public class EntityAIDragonFollowParent extends EntityAIDragonBase {
     public boolean shouldContinueExecuting() {
         if (this.dragon.getGrowingAge() >= 0) {
             return false;
-        } else if (!this.parentAnimal.isEntityAlive()) {
+        } else if (!this.adultDragon.isEntityAlive()) {
             return false;
         } else {
-            double d0 = this.dragon.getDistanceSq(this.parentAnimal);
+            double d0 = this.dragon.getDistanceSq(this.adultDragon);
             return d0 >= 9.0D && d0 <= 256.0D;
         }
     }
@@ -75,7 +84,7 @@ public class EntityAIDragonFollowParent extends EntityAIDragonBase {
      * Reset the task's internal state. Called when this task is interrupted by another one
      */
     public void resetTask() {
-        this.parentAnimal = null;
+        this.adultDragon = null;
     }
 
     /**
@@ -84,7 +93,7 @@ public class EntityAIDragonFollowParent extends EntityAIDragonBase {
     public void updateTask() {
         if (--this.delayCounter <= 0) {
             this.delayCounter = 10;
-            this.dragon.getNavigator().tryMoveToEntityLiving(this.parentAnimal, this.moveSpeed);
+            this.dragon.getNavigator().tryMoveToEntityLiving(this.adultDragon, this.moveSpeed);
         }
     }
 }

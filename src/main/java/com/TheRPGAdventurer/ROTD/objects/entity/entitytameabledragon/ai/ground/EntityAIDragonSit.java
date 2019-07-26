@@ -6,21 +6,23 @@ import net.minecraft.entity.ai.EntityAISit;
 
 public class EntityAIDragonSit extends EntityAISit {
     public EntityTameableDragon dragon;
+
     /**
      * If the Entitydragon is sitting.
      */
     private boolean isSitting;
 
-    public EntityAIDragonSit(EntityTameableDragon entityIn) {
-        super(entityIn);
-        this.dragon = entityIn;
+    public EntityAIDragonSit(EntityTameableDragon dragon) {
+        super(dragon);
+        this.dragon = dragon;
+        this.setMutexBits(5);
     }
 
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
     public boolean shouldExecute() {
-        if (!this.dragon.isTamed() || this.dragon.isInWater() || !this.dragon.onGround) {
+        if (!this.dragon.isTamed() || this.dragon.isInWater() || !this.dragon.onGround || this.dragon.getControllingPlayer() != null && !dragon.nowhistlecommands()) {
             return false;
         } else {
             EntityLivingBase entitylivingbase = this.dragon.getOwner();

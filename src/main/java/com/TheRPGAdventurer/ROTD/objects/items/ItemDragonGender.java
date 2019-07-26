@@ -8,10 +8,13 @@ import com.TheRPGAdventurer.ROTD.util.DMUtils;
 import com.TheRPGAdventurer.ROTD.util.IHasModel;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -31,12 +34,13 @@ public class ItemDragonGender extends Item implements IHasModel
     }
 
     @Override
-    public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity target) {
+    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase target, EnumHand hand) {
         if (target.world.isRemote) return false;
         if (target instanceof EntityTameableDragon) {
             EntityTameableDragon dragon = (EntityTameableDragon) target;
-            if (dragon.isTamedFor(player)) {
+            if (dragon.isTamedFor(player)) { // needs the actual owner even if dragon is unlocked
                 dragon.setOppositeGender();
+                player.sendStatusMessage(new TextComponentTranslation("dragon.notOwned"), true);
                 dragon.world.playSound(null, player.getPosition(), ModSounds.DRAGON_SWITCH, SoundCategory.PLAYERS, 1, 1);
                 if (!player.isCreative()) stack.shrink(1);
                 return true;
